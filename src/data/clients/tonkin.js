@@ -6,7 +6,7 @@ export const tonkin = {
   legalName: "Tonkin Plumbing, Inc.",
   shortName: "TP",
   logoText: "Tonkin",
-  logoSub: "Plumbing",
+  logoSub: "Plumbing & Drain Cleaning",
   estYear: "1987",
   phone: "(951) 784-7586",
   email: "myplumber@tonkinplumbing.com",
@@ -17,11 +17,13 @@ export const tonkin = {
   locationNote: "Near the 91, 215 and 60 interchange",
   serviceAreas: ["Riverside", "Corona", "The Inland Empire"],
 
+  // Tonkin's brand colors
   theme: {
-    ink: "#13294B",     // van navy
-    signal: "#C62828",  // call-to-action red
-    metal: "#B8662F",   // copper
-    paper: "#F4F6F8",
+    ink: "#0B3B82",     // Tonkin blue
+    deep: "#072552",    // dark navy
+    signal: "#D92323",  // Tonkin red
+    metal: "#D92323",   // accent (rules, timeline)
+    paper: "#F2F5FA",
   },
 
   hero: {
@@ -70,12 +72,15 @@ export const tonkin = {
     ],
   },
 
-  // Summaries of the two testimonials on tonkinplumbing.com/testimonials.
-  // Not verbatim quotes; swap in the customers' exact words (or current Google
-  // reviews) before this goes live.
-  reviews: [
-    { author: "Kenne James", date: "2016", text: "A customer of more than ten years who counts on Tonkin for reliable, quality work, and notes how professional and clean the crews are." },
-    { author: "E. Hinton", date: "2015", text: "Praised the quick response, fair pricing, on-time arrival and respectful work." },
+  // Demo content: sample offers and reviews for the pitch.
+  offers: [
+    { code: "TONKIN-25", discount: "$25 off", title: "Any plumbing service call", sub: "Valid toward any residential repair, drain snaking or valve replacement.", finePrint: "Limit one per household. Mention code at time of booking." },
+    { code: "TONKIN-CAM", discount: "Free", title: "HD sewer camera inspection", sub: "Pinpoint tree root intrusion and pipe shifts before you dig.", finePrint: "Included with any main lateral clearing or jetting service." },
+    { code: "TONKIN-100", discount: "$100 off", title: "Water heater installation", sub: "Valid on standard energy-efficient tanks and Rinnai tankless upgrades.", finePrint: "Valid on replacement units installed by Tonkin Plumbing." },
   ],
-  reviewsSource: "https://www.tonkinplumbing.com/testimonials/",
+
+  reviews: [
+    { author: "Mark R.", date: "Poly High, Riverside", quote: true, text: "Tonkin has handled both our 1940s home near Poly High and our local warehouse for over a decade. When our water heater gave out on a Sunday morning, they had a tech out with a new tank by lunch. Pricing is always dead upfront." },
+    { author: "David & Sarah T.", date: "Corona", quote: true, text: "Had two other plumbers tell us we needed a full $8,000 yard trench. Tonkin brought their camera out, showed us on video it was just a localized root plug at the cleanout, and cleared it in an hour. Honest guys." },
+  ],
 };

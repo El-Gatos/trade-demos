@@ -12,6 +12,7 @@ export default {
       },
       colors: {
         ink: 'var(--ink)',
+        deep: 'var(--deep)',
         signal: 'var(--signal)',
         metal: 'var(--metal)',
         paper: 'var(--paper)',

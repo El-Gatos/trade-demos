@@ -10,29 +10,9 @@ const NAV = [
   { href: '#contact', label: 'Contact' },
 ];
 
-// The one decorative element: a run of copper pipe with couplings at each end.
-function PipeRun({ className = '' }) {
-  return (
-    <svg className={className} viewBox="0 0 400 22" preserveAspectRatio="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="pipe" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: 'color-mix(in srgb, var(--metal), white 45%)' }} />
-          <stop offset="0.45" style={{ stopColor: 'var(--metal)' }} />
-          <stop offset="1" style={{ stopColor: 'color-mix(in srgb, var(--metal), black 40%)' }} />
-        </linearGradient>
-      </defs>
-      <rect x="6" y="6" width="388" height="10" fill="url(#pipe)" />
-      <rect x="0" y="2" width="14" height="18" rx="2" fill="url(#pipe)" />
-      <rect x="386" y="2" width="14" height="18" rx="2" fill="url(#pipe)" />
-      <rect x="0" y="2" width="14" height="18" rx="2" fill="#000" opacity="0.15" />
-      <rect x="386" y="2" width="14" height="18" rx="2" fill="#000" opacity="0.15" />
-    </svg>
-  );
-}
-
 function SectionHeading({ children, className = '' }) {
   return (
-    <h2 className={`font-display font-bold text-ink text-4xl sm:text-5xl leading-[1.05] tracking-tight ${className}`}>
+    <h2 className={`font-display font-bold text-deep text-4xl sm:text-5xl leading-[1.05] tracking-tight ${className}`}>
       {children}
     </h2>
   );
@@ -42,11 +22,11 @@ function ServiceList({ title, items }) {
   if (!items?.length) return null;
   return (
     <div>
-      <h3 className="font-display font-semibold text-2xl text-ink pb-3 border-b-2 border-ink">{title}</h3>
+      <h3 className="font-display font-semibold text-2xl text-deep pb-3 border-b-2 border-signal">{title}</h3>
       <dl>
         {items.map((s) => (
           <div key={s.title} className="py-4 border-b border-slate-200">
-            <dt className="font-semibold text-ink text-lg">{s.title}</dt>
+            <dt className="font-semibold text-deep text-lg">{s.title}</dt>
             <dd className="text-slate-600 mt-0.5 leading-relaxed">{s.desc}</dd>
           </div>
         ))}
@@ -73,6 +53,7 @@ export default function MasterTradeTemplate() {
 
   const themeVars = {
     '--ink': theme.ink,
+    '--deep': theme.deep || theme.ink,
     '--signal': theme.signal,
     '--metal': theme.metal,
     '--paper': theme.paper,
@@ -84,13 +65,14 @@ export default function MasterTradeTemplate() {
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-4">
-          <Link to={`/${client.id}`} className="flex items-baseline gap-2 text-ink" aria-label={`${client.name} home`}>
-            <span className="font-display font-extrabold text-3xl md:text-4xl leading-none tracking-tight">
+          <Link to={`/${client.id}`} className="flex items-center gap-3" aria-label={`${client.name} home`}>
+            <span className="border-2 border-signal rounded-sm px-2 py-1 font-display font-extrabold text-2xl md:text-3xl leading-none tracking-tight text-deep uppercase">
               {client.logoText || client.name.split(' ')[0]}
             </span>
-            {client.logoSub && (
-              <span className="font-display font-medium text-xl md:text-2xl leading-none text-metal">{client.logoSub}</span>
-            )}
+            <span className="hidden sm:block leading-tight">
+              <span className="block font-display font-bold text-xl text-deep">{client.name}</span>
+              {client.logoSub && <span className="block text-sm font-semibold text-signal">{client.logoSub}</span>}
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-7 font-medium text-slate-700" aria-label="Main">
@@ -137,10 +119,10 @@ export default function MasterTradeTemplate() {
             <div className="mt-10 md:mt-12">
               <p className="text-white/70 font-medium">{hero.urgent}</p>
               <a href={tel} className="group inline-block mt-1" aria-label={`Call ${client.name} at ${client.phone}`}>
-                <span className="block font-display font-extrabold leading-none tracking-tight text-[clamp(3rem,16vw,7.25rem)] group-hover:text-[color-mix(in_srgb,var(--metal),white_55%)] transition-colors">
+                <span className="block font-display font-extrabold leading-none tracking-tight text-[clamp(3rem,16vw,7.25rem)] group-hover:text-white/85 transition-colors">
                   {client.phone}
                 </span>
-                <PipeRun className="block w-full h-4 md:h-5 mt-2" />
+                <span className="block h-2 md:h-2.5 mt-3 rounded-full bg-signal" aria-hidden="true" />
               </a>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href={tel} className="bg-signal text-white font-semibold text-lg px-6 py-3 rounded flex items-center gap-2 hover:brightness-110">
@@ -198,10 +180,16 @@ export default function MasterTradeTemplate() {
             <SectionHeading>Current offers</SectionHeading>
             <ul className="mt-10 grid md:grid-cols-3 gap-6">
               {offers.map((o) => (
-                <li key={o.title} className="bg-white border-2 border-dashed border-slate-300 rounded p-6">
-                  <p className="font-display font-extrabold text-4xl text-signal leading-none">{o.discount}</p>
-                  <p className="mt-3 font-semibold text-lg text-ink">{o.title}</p>
+                <li key={o.title} className="bg-white border-2 border-dashed border-signal rounded p-6 flex flex-col">
+                  <p className="font-display font-extrabold text-5xl text-signal leading-none">{o.discount}</p>
+                  <p className="mt-3 font-semibold text-lg text-deep">{o.title}</p>
                   <p className="mt-1 text-slate-600">{o.sub}</p>
+                  {o.code && (
+                    <p className="mt-5 pt-4 border-t border-slate-200 text-deep">
+                      Code <span className="font-display font-bold text-xl tracking-wide">{o.code}</span>
+                    </p>
+                  )}
+                  {o.finePrint && <p className="mt-2 text-sm text-slate-500">{o.finePrint}</p>}
                 </li>
               ))}
             </ul>
@@ -246,7 +234,7 @@ export default function MasterTradeTemplate() {
           <SectionHeading>What customers say</SectionHeading>
           <ul className="mt-10 grid md:grid-cols-2 gap-10">
             {reviews.map((r) => (
-              <li key={r.author} className="border-t-2 border-ink pt-5">
+              <li key={r.author} className="border-t-2 border-signal pt-5">
                 <p className="text-xl text-slate-800 leading-relaxed">
                   {r.quote ? `“${r.text}”` : r.text}
                 </p>
@@ -267,7 +255,7 @@ export default function MasterTradeTemplate() {
       )}
 
       {/* Contact / footer */}
-      <footer id="contact" className="scroll-mt-20 bg-ink text-white">
+      <footer id="contact" className="scroll-mt-20 bg-deep text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-7">
             <h2 className="font-display font-bold text-4xl sm:text-5xl leading-tight">Need a plumber? Call us.</h2>
@@ -301,7 +289,7 @@ export default function MasterTradeTemplate() {
         <a href={tel} className="bg-signal text-white font-semibold text-lg py-4 flex items-center justify-center gap-2">
           <Phone size={20} aria-hidden="true" /> Call
         </a>
-        <a href={sms} className="bg-ink text-white font-semibold text-lg py-4 flex items-center justify-center gap-2">
+        <a href={sms} className="bg-deep text-white font-semibold text-lg py-4 flex items-center justify-center gap-2">
           <MessageSquare size={20} aria-hidden="true" /> Text
         </a>
       </div>
