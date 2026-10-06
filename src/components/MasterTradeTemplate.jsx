@@ -8,6 +8,8 @@ export default function MasterTradeTemplate() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const client = CLIENTS[clientId] || DEFAULT_CLIENT;
+  const dial = client.phone.replace(/\D/g, '');
+  const logoText = client.logoText || client.name.split(' ')[0];
 
   return (
     <div className="min-h-screen bg-slate-900 font-sans text-slate-800">
@@ -16,18 +18,18 @@ export default function MasterTradeTemplate() {
       <div className="bg-[#0b3b82] py-2 px-4 border-b border-[#082d64]">
         <div className="max-w-4xl mx-auto flex items-center justify-center gap-3 text-xs sm:text-sm font-black uppercase tracking-wider text-white">
           <a 
-            href={`tel:${client.rawPhone || '9517847586'}`} 
+            href={`tel:${dial}`} 
             className="bg-[#d92323] hover:bg-red-700 text-white px-5 py-2 rounded-sm shadow flex items-center gap-1.5 transition-colors"
           >
             <Phone size={14} fill="currentColor" />
             <span>CALL {client.phone}</span>
           </a>
           <a 
-            href={`sms:${client.rawPhone || '9517847586'}`} 
+            href={`sms:${dial}`} 
             className="bg-[#072552] hover:bg-[#051a3a] text-white px-5 py-2 rounded-sm shadow flex items-center gap-1.5 border border-blue-400/20 transition-colors"
           >
             <MessageSquare size={14} />
-            <span>TEXT (951) 784-7586</span>
+            <span>TEXT {client.phone}</span>
           </a>
         </div>
       </div>
@@ -38,7 +40,7 @@ export default function MasterTradeTemplate() {
           <Link to={`/${client.id}`} className="flex items-center gap-3">
             <div className="border-2 border-red-600 p-1.5 rounded-sm">
               <span className="font-black text-2xl tracking-tighter text-blue-900 leading-none block">
-                TONKIN
+                {logoText.toUpperCase()}
               </span>
             </div>
             <div>
@@ -77,7 +79,7 @@ export default function MasterTradeTemplate() {
           <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80')` }}></div>
           <div className="relative z-10 text-center px-4">
             <div className="inline-block bg-white/95 px-6 py-4 rounded shadow-2xl border-b-4 border-red-600 max-w-md">
-              <span className="text-xs font-black text-red-600 uppercase tracking-widest block mb-1">Serving Riverside Since 1987</span>
+              <span className="text-xs font-black text-red-600 uppercase tracking-widest block mb-1">Serving {client.city.split(',')[0]} Since {client.estYear}</span>
               <p className="text-2xl sm:text-3xl font-black text-blue-950 uppercase tracking-tight">Family Owned & Operated</p>
               <p className="text-sm font-bold text-slate-700 mt-1">Full Fleet of 5+ Fully-Equipped Service Vans</p>
             </div>
@@ -113,9 +115,9 @@ export default function MasterTradeTemplate() {
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">CA Lic #512803</span>
-              <a href={`tel:${client.rawPhone || '9517847586'}`} className="bg-[#d92323] hover:bg-red-700 text-white font-black text-xs uppercase px-4 py-2 rounded-sm shadow">
-                Call (951) 784-7586
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">{client.license}</span>
+              <a href={`tel:${dial}`} className="bg-[#d92323] hover:bg-red-700 text-white font-black text-xs uppercase px-4 py-2 rounded-sm shadow">
+                Call {client.phone}
               </a>
             </div>
           </div>
@@ -138,7 +140,7 @@ export default function MasterTradeTemplate() {
             </div>
             <div className="mt-6">
               <a 
-                href={`tel:${client.rawPhone || '9517847586'}`} 
+                href={`tel:${dial}`} 
                 className="w-full block text-center bg-blue-950 hover:bg-slate-900 text-white font-black uppercase text-sm py-3.5 rounded-sm shadow tracking-wider"
               >
                 CLICK TO CALL
@@ -178,8 +180,8 @@ export default function MasterTradeTemplate() {
             </ul>
             <div className="bg-slate-100 p-4 rounded text-center">
               <p className="text-xs uppercase font-black text-slate-500 tracking-widest mb-1">24 Hour Dispatch</p>
-              <a href={`tel:${client.rawPhone || '9517847586'}`} className="text-2xl sm:text-3xl font-black text-red-600 hover:underline">
-                (951) 784-7586
+              <a href={`tel:${dial}`} className="text-2xl sm:text-3xl font-black text-red-600 hover:underline">
+                {client.phone}
               </a>
             </div>
           </div>
@@ -189,7 +191,7 @@ export default function MasterTradeTemplate() {
             <div className="bg-white rounded-md p-5 text-center shadow-lg">
               <h3 className="font-black text-slate-900 uppercase text-sm mb-1">Water Line Burst</h3>
               <p className="text-xs text-slate-500 italic mb-3">Underground front yard main break</p>
-              <a href={`tel:${client.rawPhone || '9517847586'}`} className="text-xs font-black text-blue-700 hover:text-red-600 flex items-center justify-center gap-1">
+              <a href={`tel:${dial}`} className="text-xs font-black text-blue-700 hover:text-red-600 flex items-center justify-center gap-1">
                 <span>See More</span> <ArrowRight size={12} />
               </a>
             </div>
@@ -197,7 +199,7 @@ export default function MasterTradeTemplate() {
             <div className="bg-white rounded-md p-5 text-center shadow-lg">
               <h3 className="font-black text-slate-900 uppercase text-sm mb-1">Tonkin Work</h3>
               <p className="text-xs text-slate-500 italic mb-3">Our Recent Riverside Plumbing Projects</p>
-              <a href={`tel:${client.rawPhone || '9517847586'}`} className="text-xs font-black text-blue-700 hover:text-red-600 flex items-center justify-center gap-1">
+              <a href={`tel:${dial}`} className="text-xs font-black text-blue-700 hover:text-red-600 flex items-center justify-center gap-1">
                 <span>See More</span> <ArrowRight size={12} />
               </a>
             </div>
@@ -205,7 +207,7 @@ export default function MasterTradeTemplate() {
             <div className="bg-white rounded-md p-5 text-center shadow-lg">
               <h3 className="font-black text-slate-900 uppercase text-sm mb-1">Buckled Wood Floor</h3>
               <p className="text-xs text-slate-500 italic mb-3">Common sign of slab leaks inside the home</p>
-              <a href={`tel:${client.rawPhone || '9517847586'}`} className="text-xs font-black text-red-600 hover:underline flex items-center justify-center gap-1">
+              <a href={`tel:${dial}`} className="text-xs font-black text-red-600 hover:underline flex items-center justify-center gap-1">
                 <span>Free Leak Detection →</span>
               </a>
             </div>
@@ -259,13 +261,13 @@ export default function MasterTradeTemplate() {
             {client.name}
           </p>
           <p className="text-slate-400 italic">
-            Riverside, CA 92507 (Vine St corridor) • CA License #512803
+            {client.address || client.city} • {client.license}
           </p>
           <p className="text-xl font-black text-white">
-            CALL (951) 784-7586
+            CALL {client.phone}
           </p>
           <div className="pt-4 border-t border-blue-900 text-slate-500 text-[11px]">
-            © {new Date().getFullYear()} Tonkin Plumbing, Inc. All Rights Reserved.
+            © {new Date().getFullYear()} {(client.legalName || client.name).replace(/\.$/, "")}. All Rights Reserved.
           </div>
         </div>
       </footer>

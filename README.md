@@ -1,16 +1,68 @@
-# React + Vite
+# Trade Demos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+One React template, many local trade businesses. Each client is a data file; the template skins itself from it, so a new demo is a new file instead of a new site.
 
-Currently, two official plugins are available:
+Live routes:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- `/` or `/tonkin` - Tonkin Plumbing (default)
+- `/luna` - Luna Plumbing Service
 
-## React Compiler
+The floating **Switch Client** button (bottom right) flips between demos.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run it
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build into dist/
+npm run lint
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Stack: React 19, Vite, Tailwind CSS v3 (via PostCSS), react-router, lucide-react icons.
+
+## Project layout
+
+```
+src/
+  App.jsx                         routes: / and /:clientId
+  components/
+    MasterTradeTemplate.jsx       the page itself
+    DemoSwitcher.jsx              floating client picker
+  data/
+    index.js                      CLIENTS registry + DEFAULT_CLIENT
+    clients/
+      tonkin.js
+      luna.js
+```
+
+## Adding a client
+
+1. Copy an existing file in `src/data/clients/` (e.g. `luna.js` to `acme.js`) and fill in the details.
+2. Register it in `src/data/index.js`:
+
+   ```js
+   import { acme } from './clients/acme';
+
+   export const CLIENTS = { tonkin, luna, acme };
+   ```
+
+3. Visit `/acme`.
+
+The `id` field must match the key in `CLIENTS` and the URL.
+
+### Fields the template reads
+
+| Field | Used for |
+| --- | --- |
+| `id` | URL and switcher |
+| `name` | Header and footer |
+| `shortName` | Switcher button label |
+| `phone` | All call/text buttons; the dial number is derived from it, so any format works |
+| `license` | Residential card and footer |
+| `city` | Hero banner ("Serving <city> Since …") and footer fallback |
+| `estYear` | Hero banner |
+| `address` | Footer (optional, falls back to `city`) |
+| `legalName` | Copyright line (optional, falls back to `name`) |
+| `logoText` | Logo box (optional, defaults to the first word of `name`) |
+
+> Heads up: most of the body copy in `MasterTradeTemplate.jsx` (service cards, slab leak section, job gallery) is still written for Tonkin and not yet driven by client data.

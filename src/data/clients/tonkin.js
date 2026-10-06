@@ -6,7 +6,6 @@ export const tonkin = {
   estYear: "1987",
   yearsInBusiness: "39+",
   phone: "(951) 784-7586",
-  rawPhone: "9517847586",
   license: "CA Lic #512803",
   email: "service@tonkinplumbing.com",
   address: "Riverside, CA (Vine St corridor)",
