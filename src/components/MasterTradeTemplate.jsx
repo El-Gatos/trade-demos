@@ -1,277 +1,310 @@
-import { ArrowRight, Menu, MessageSquare, Phone, X } from 'lucide-react';
-import { useState } from 'react';
+import { Mail, MapPin, Menu, MessageSquare, Phone, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CLIENTS, DEFAULT_CLIENT } from '../data';
 
+const NAV = [
+  { href: '#services', label: 'Services' },
+  { href: '#story', label: 'About us' },
+  { href: '#reviews', label: 'Reviews' },
+  { href: '#contact', label: 'Contact' },
+];
+
+// The one decorative element: a run of copper pipe with couplings at each end.
+function PipeRun({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 400 22" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="pipe" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style={{ stopColor: 'color-mix(in srgb, var(--metal), white 45%)' }} />
+          <stop offset="0.45" style={{ stopColor: 'var(--metal)' }} />
+          <stop offset="1" style={{ stopColor: 'color-mix(in srgb, var(--metal), black 40%)' }} />
+        </linearGradient>
+      </defs>
+      <rect x="6" y="6" width="388" height="10" fill="url(#pipe)" />
+      <rect x="0" y="2" width="14" height="18" rx="2" fill="url(#pipe)" />
+      <rect x="386" y="2" width="14" height="18" rx="2" fill="url(#pipe)" />
+      <rect x="0" y="2" width="14" height="18" rx="2" fill="#000" opacity="0.15" />
+      <rect x="386" y="2" width="14" height="18" rx="2" fill="#000" opacity="0.15" />
+    </svg>
+  );
+}
+
+function SectionHeading({ children, className = '' }) {
+  return (
+    <h2 className={`font-display font-bold text-ink text-4xl sm:text-5xl leading-[1.05] tracking-tight ${className}`}>
+      {children}
+    </h2>
+  );
+}
+
+function ServiceList({ title, items }) {
+  if (!items?.length) return null;
+  return (
+    <div>
+      <h3 className="font-display font-semibold text-2xl text-ink pb-3 border-b-2 border-ink">{title}</h3>
+      <dl>
+        {items.map((s) => (
+          <div key={s.title} className="py-4 border-b border-slate-200">
+            <dt className="font-semibold text-ink text-lg">{s.title}</dt>
+            <dd className="text-slate-600 mt-0.5 leading-relaxed">{s.desc}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
 export default function MasterTradeTemplate() {
   const { clientId } = useParams();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const client = CLIENTS[clientId] || DEFAULT_CLIENT;
   const dial = client.phone.replace(/\D/g, '');
-  const logoText = client.logoText || client.name.split(' ')[0];
+  const tel = `tel:${dial}`;
+  const sms = `sms:${dial}`;
+  const { hero, theme, services, story, reviews, offers, facts } = client;
+  const areas = Array.isArray(client.serviceAreas) ? client.serviceAreas : [client.serviceAreas].filter(Boolean);
+  const legal = (client.legalName || client.name).replace(/\.$/, '');
+
+  useEffect(() => {
+    document.title = `${client.name} | ${client.city}`;
+  }, [client.name, client.city]);
+
+  const themeVars = {
+    '--ink': theme.ink,
+    '--signal': theme.signal,
+    '--metal': theme.metal,
+    '--paper': theme.paper,
+  };
 
   return (
-    <div className="min-h-screen bg-slate-900 font-sans text-slate-800">
-      
-      {/* 1. TOP DUAL ACTION BAR (Call & Text buttons) */}
-      <div className="bg-[#0b3b82] py-2 px-4 border-b border-[#082d64]">
-        <div className="max-w-4xl mx-auto flex items-center justify-center gap-3 text-xs sm:text-sm font-black uppercase tracking-wider text-white">
-          <a 
-            href={`tel:${dial}`} 
-            className="bg-[#d92323] hover:bg-red-700 text-white px-5 py-2 rounded-sm shadow flex items-center gap-1.5 transition-colors"
-          >
-            <Phone size={14} fill="currentColor" />
-            <span>CALL {client.phone}</span>
-          </a>
-          <a 
-            href={`sms:${dial}`} 
-            className="bg-[#072552] hover:bg-[#051a3a] text-white px-5 py-2 rounded-sm shadow flex items-center gap-1.5 border border-blue-400/20 transition-colors"
-          >
-            <MessageSquare size={14} />
-            <span>TEXT {client.phone}</span>
-          </a>
-        </div>
-      </div>
+    <div style={themeVars} className="min-h-screen bg-white text-slate-800 pb-20 md:pb-0">
 
-      {/* 2. WHITE HEADER WITH LOGO */}
-      <header className="bg-white py-4 px-4 sm:px-8 border-b border-slate-200">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link to={`/${client.id}`} className="flex items-center gap-3">
-            <div className="border-2 border-red-600 p-1.5 rounded-sm">
-              <span className="font-black text-2xl tracking-tighter text-blue-900 leading-none block">
-                {logoText.toUpperCase()}
-              </span>
-            </div>
-            <div>
-              <span className="font-black text-xl tracking-tight text-blue-950 uppercase block leading-none">
-                {client.name}
-              </span>
-              <span className="text-[10px] font-bold text-red-600 uppercase tracking-widest">
-                Plumbing & Drain Cleaning
-              </span>
-            </div>
+      {/* Header */}
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-4">
+          <Link to={`/${client.id}`} className="flex items-baseline gap-2 text-ink" aria-label={`${client.name} home`}>
+            <span className="font-display font-extrabold text-3xl md:text-4xl leading-none tracking-tight">
+              {client.logoText || client.name.split(' ')[0]}
+            </span>
+            {client.logoSub && (
+              <span className="font-display font-medium text-xl md:text-2xl leading-none text-metal">{client.logoSub}</span>
+            )}
           </Link>
 
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 text-blue-950 hover:bg-slate-100 rounded"
+          <nav className="hidden md:flex items-center gap-7 font-medium text-slate-700" aria-label="Main">
+            {NAV.map((n) => (
+              <a key={n.href} href={n.href} className="hover:text-ink hover:underline underline-offset-4">{n.label}</a>
+            ))}
+            <a href={tel} className="bg-signal text-white font-semibold px-4 py-2.5 rounded flex items-center gap-2 hover:brightness-110">
+              <Phone size={18} aria-hidden="true" />
+              {client.phone}
+            </a>
+          </nav>
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden p-2 -mr-2 text-ink"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
 
-        {/* Mobile dropdown */}
-        {mobileMenuOpen && (
-          <div className="max-w-5xl mx-auto pt-4 mt-3 border-t border-slate-200 flex flex-col gap-2 font-bold text-sm text-blue-950 uppercase">
-            <a href="#residential" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-red-600">Residential Plumber</a>
-            <a href="#commercial" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-red-600">Commercial Plumber</a>
-            <a href="#emergency" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-red-600">24/7 Emergency Plumber</a>
-            <a href="#services" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-red-600">All Plumbing Services</a>
-          </div>
+        {menuOpen && (
+          <nav id="mobile-menu" className="md:hidden border-t border-slate-200 px-4 py-2" aria-label="Main">
+            {NAV.map((n) => (
+              <a key={n.href} href={n.href} onClick={() => setMenuOpen(false)} className="block py-3 text-lg font-medium text-ink border-b border-slate-100 last:border-0">
+                {n.label}
+              </a>
+            ))}
+          </nav>
         )}
       </header>
 
-      {/* 3. HERO TRUCK BANNER WITH SCALLOPED/WAVE BOTTOM */}
-      <div className="relative bg-slate-200">
-        <div className="w-full h-64 sm:h-80 md:h-96 relative overflow-hidden bg-gradient-to-r from-slate-800 to-slate-700 flex items-center justify-center">
-          {/* Van Mockup Background */}
-          <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80')` }}></div>
-          <div className="relative z-10 text-center px-4">
-            <div className="inline-block bg-white/95 px-6 py-4 rounded shadow-2xl border-b-4 border-red-600 max-w-md">
-              <span className="text-xs font-black text-red-600 uppercase tracking-widest block mb-1">Serving {client.city.split(',')[0]} Since {client.estYear}</span>
-              <p className="text-2xl sm:text-3xl font-black text-blue-950 uppercase tracking-tight">Family Owned & Operated</p>
-              <p className="text-sm font-bold text-slate-700 mt-1">Full Fleet of 5+ Fully-Equipped Service Vans</p>
-            </div>
-          </div>
-        </div>
+      {/* Hero: the phone number is the headline act */}
+      <section className="bg-ink text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-14 md:pt-20 md:pb-20 grid md:grid-cols-12 gap-10 md:gap-8">
+          <div className="md:col-span-8">
+            <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.02] tracking-tight max-w-[16ch]">
+              {hero.headline}
+            </h1>
+            <p className="mt-5 text-lg md:text-xl text-white/80 leading-relaxed max-w-[52ch]">{hero.sub}</p>
 
-        {/* Curved Wave Bottom Divider (exact match to The Plumbing Source) */}
-        <div className="absolute -bottom-1 left-0 right-0 overflow-hidden leading-none z-20">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-10 sm:h-14 fill-[#0b3b82]">
-            <path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,120 L0,120 Z"></path>
-          </svg>
-        </div>
-      </div>
-
-      {/* 4. SOLID BLUE SECTION WITH FLOATING WHITE CONTENT CARDS */}
-      <section className="bg-[#0b3b82] pt-4 pb-16 px-4">
-        <div className="max-w-3xl mx-auto space-y-8">
-          
-          {/* Card 1: Residential Plumber */}
-          <div id="residential" className="bg-white rounded-md p-8 sm:p-10 shadow-2xl">
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4 uppercase">
-              Residential Plumber
-            </h2>
-            <div className="space-y-4 text-base sm:text-lg text-slate-600 font-medium leading-relaxed italic">
-              <p>
-                Our local residential plumbers serve the Riverside area, Poly High district, Corona, and beyond.
-              </p>
-              <p>
-                We specialize in the installation of <span className="text-red-700 font-bold not-italic">gas or electric hot water heaters</span>, as well as <span className="text-red-700 font-bold not-italic">Rinnai tankless water heaters</span>.
-              </p>
-              <p className="text-slate-800 font-semibold not-italic border-l-4 border-red-600 pl-4 my-4">
-                "From clogged drains to whole-home repipes, we can do it all. Call for a free estimate today."
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">{client.license}</span>
-              <a href={`tel:${dial}`} className="bg-[#d92323] hover:bg-red-700 text-white font-black text-xs uppercase px-4 py-2 rounded-sm shadow">
-                Call {client.phone}
+            <div className="mt-10 md:mt-12">
+              <p className="text-white/70 font-medium">{hero.urgent}</p>
+              <a href={tel} className="group inline-block mt-1" aria-label={`Call ${client.name} at ${client.phone}`}>
+                <span className="block font-display font-extrabold leading-none tracking-tight text-[clamp(3rem,16vw,7.25rem)] group-hover:text-[color-mix(in_srgb,var(--metal),white_55%)] transition-colors">
+                  {client.phone}
+                </span>
+                <PipeRun className="block w-full h-4 md:h-5 mt-2" />
               </a>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href={tel} className="bg-signal text-white font-semibold text-lg px-6 py-3 rounded flex items-center gap-2 hover:brightness-110">
+                  <Phone size={20} aria-hidden="true" /> Call now
+                </a>
+                <a href={sms} className="bg-white/10 text-white font-semibold text-lg px-6 py-3 rounded flex items-center gap-2 hover:bg-white/20">
+                  <MessageSquare size={20} aria-hidden="true" /> Send a text
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Card 2: Commercial Plumber */}
-          <div id="commercial" className="bg-white rounded-md p-8 sm:p-10 shadow-2xl">
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4 uppercase">
-              Commercial Plumber
-            </h2>
-            <div className="space-y-4 text-base sm:text-lg text-slate-600 font-medium leading-relaxed italic">
-              <p>
-                Our commercial plumbers in Riverside also serve the entire Inland Empire with our dedicated fleet of service vehicles.
-              </p>
-              <p>
-                We fix plumbing problems for restaurants, retail buildings, offices, apartment complexes, and light industrial facilities.
-              </p>
-              <p className="text-slate-900 font-bold not-italic">
-                Our plumbers are available 24/7 for all your commercial facility emergencies.
-              </p>
-            </div>
-            <div className="mt-6">
-              <a 
-                href={`tel:${dial}`} 
-                className="w-full block text-center bg-blue-950 hover:bg-slate-900 text-white font-black uppercase text-sm py-3.5 rounded-sm shadow tracking-wider"
-              >
-                CLICK TO CALL
-              </a>
-            </div>
-          </div>
-
-          {/* Card 3: Emergency Plumber */}
-          <div id="emergency" className="bg-white rounded-md p-8 sm:p-10 shadow-2xl">
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4 uppercase">
-              Emergency Plumber
-            </h2>
-            <p className="text-base sm:text-lg text-slate-600 font-medium italic mb-4">
-              Tonkin Plumbing offers 24 hour Emergency Plumbing Service as well as:
-            </p>
-            <ul className="space-y-2 text-slate-700 font-bold text-sm sm:text-base italic mb-6">
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                <span>Backflow testing & certified repairs</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                <span>Sewer lateral video camera inspections</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                <span>Electronic acoustic slab leak detection</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                <span>Grease trap hydro jetting & mainline clearing</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                <span>Whole-home copper and PEX repiping</span>
-              </li>
+          <aside className="md:col-span-4 md:pl-8 md:border-l md:border-white/15 self-end">
+            <h2 className="font-display font-semibold text-2xl">Where we work</h2>
+            <ul className="mt-3 space-y-1 text-lg text-white/85">
+              {areas.map((a) => <li key={a}>{a}</li>)}
             </ul>
-            <div className="bg-slate-100 p-4 rounded text-center">
-              <p className="text-xs uppercase font-black text-slate-500 tracking-widest mb-1">24 Hour Dispatch</p>
-              <a href={`tel:${dial}`} className="text-2xl sm:text-3xl font-black text-red-600 hover:underline">
-                {client.phone}
-              </a>
-            </div>
-          </div>
-
-          {/* 5. JOB PROOF GALLERY CARDS (Like "Water Line Burst", "Buckled Wood Floor") */}
-          <div className="grid sm:grid-cols-3 gap-4 pt-4">
-            <div className="bg-white rounded-md p-5 text-center shadow-lg">
-              <h3 className="font-black text-slate-900 uppercase text-sm mb-1">Water Line Burst</h3>
-              <p className="text-xs text-slate-500 italic mb-3">Underground front yard main break</p>
-              <a href={`tel:${dial}`} className="text-xs font-black text-blue-700 hover:text-red-600 flex items-center justify-center gap-1">
-                <span>See More</span> <ArrowRight size={12} />
-              </a>
-            </div>
-
-            <div className="bg-white rounded-md p-5 text-center shadow-lg">
-              <h3 className="font-black text-slate-900 uppercase text-sm mb-1">Tonkin Work</h3>
-              <p className="text-xs text-slate-500 italic mb-3">Our Recent Riverside Plumbing Projects</p>
-              <a href={`tel:${dial}`} className="text-xs font-black text-blue-700 hover:text-red-600 flex items-center justify-center gap-1">
-                <span>See More</span> <ArrowRight size={12} />
-              </a>
-            </div>
-
-            <div className="bg-white rounded-md p-5 text-center shadow-lg">
-              <h3 className="font-black text-slate-900 uppercase text-sm mb-1">Buckled Wood Floor</h3>
-              <p className="text-xs text-slate-500 italic mb-3">Common sign of slab leaks inside the home</p>
-              <a href={`tel:${dial}`} className="text-xs font-black text-red-600 hover:underline flex items-center justify-center gap-1">
-                <span>Free Leak Detection →</span>
-              </a>
-            </div>
-          </div>
-
-          {/* 6. EXPANDED SERVICE LIST */}
-          <div id="services" className="bg-white rounded-md p-8 sm:p-10 shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-6 uppercase border-b-2 border-slate-100 pb-3">
-              Other Plumbing Services
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-3 text-slate-700 font-semibold text-sm sm:text-base italic">
-              <div className="space-y-2">
-                <p>• Leak Detection & Repair</p>
-                <p>• Water Heaters (Standard & Tankless)</p>
-                <p>• Slab Leak Repairs</p>
-                <p>• Sewer Main Line Re-pipes</p>
-                <p>• Drain & Sewer Hydro Jetting</p>
-                <p>• Water Pressure Regulators</p>
-              </div>
-              <div className="space-y-2">
-                <p>• Water Filtration Systems</p>
-                <p>• Valves & Emergency Shut Offs</p>
-                <p>• Faucets, Sinks, Toilets & Urinals</p>
-                <p>• Gas Line Leak Detection & Repair</p>
-                <p>• Commercial Garbage Disposals</p>
-                <p>• Backflow Testing & Certification</p>
-              </div>
-            </div>
-          </div>
-
-          {/* 7. SLAB LEAK SECTION */}
-          <div className="bg-white rounded-md p-8 sm:p-10 shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-4 uppercase">
-              Slab Leak Repairs & Leak Detection
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 font-medium italic leading-relaxed mb-4">
-              Water pooling in your yard, or a warm wet spot on your floors? Water bill a little higher than it should be? If you think you have a water leak in your slab, wall, floor, or ceiling, call Tonkin Plumbing now for a free leak inspection!
-            </p>
-            <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">
-              Keeping Riverside in hot water since 1987.
-            </p>
-          </div>
-
+            {client.locationNote && (
+              <p className="mt-4 text-white/60 flex gap-2"><MapPin size={18} className="shrink-0 mt-0.5" aria-hidden="true" />{client.address}. {client.locationNote}.</p>
+            )}
+          </aside>
         </div>
       </section>
 
-      {/* 8. SIMPLE FOOTER */}
-      <footer className="bg-[#072552] text-slate-300 text-xs py-10 px-4 border-t-4 border-red-600 text-center">
-        <div className="max-w-2xl mx-auto space-y-4">
-          <p className="font-black text-white text-base uppercase tracking-wider">
-            {client.name}
-          </p>
-          <p className="text-slate-400 italic">
-            {client.address || client.city} • {client.license}
-          </p>
-          <p className="text-xl font-black text-white">
-            CALL {client.phone}
-          </p>
-          <div className="pt-4 border-t border-blue-900 text-slate-500 text-[11px]">
-            © {new Date().getFullYear()} {(client.legalName || client.name).replace(/\.$/, "")}. All Rights Reserved.
+      {/* Facts */}
+      {facts?.length > 0 && (
+        <section className="bg-paper border-b border-slate-200" aria-label={`Why ${client.name}`}>
+          <dl className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+            {facts.map((f) => (
+              <div key={f.value} className="lg:border-l-2 lg:border-metal lg:pl-5">
+                <dt className="font-display font-bold text-3xl text-ink leading-tight">{f.value}</dt>
+                <dd className="mt-1 text-slate-600 leading-snug">{f.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
+
+      {/* Services */}
+      <section id="services" className="scroll-mt-20 max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <SectionHeading>What we work on</SectionHeading>
+        <div className="mt-10 grid md:grid-cols-2 gap-12 md:gap-16">
+          <ServiceList title="For your home" items={services?.home} />
+          <ServiceList title="For your business" items={services?.business} />
+        </div>
+        <p className="mt-10 text-lg text-slate-700">
+          Don’t see your job here? <a href={tel} className="font-semibold text-ink underline underline-offset-4 decoration-metal decoration-2 hover:decoration-signal">Call and ask.</a>
+        </p>
+      </section>
+
+      {/* Offers (only for clients that have them) */}
+      {offers?.length > 0 && (
+        <section className="bg-paper py-16 md:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <SectionHeading>Current offers</SectionHeading>
+            <ul className="mt-10 grid md:grid-cols-3 gap-6">
+              {offers.map((o) => (
+                <li key={o.title} className="bg-white border-2 border-dashed border-slate-300 rounded p-6">
+                  <p className="font-display font-extrabold text-4xl text-signal leading-none">{o.discount}</p>
+                  <p className="mt-3 font-semibold text-lg text-ink">{o.title}</p>
+                  <p className="mt-1 text-slate-600">{o.sub}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-slate-600">Mention the offer when you call.</p>
           </div>
+        </section>
+      )}
+
+      {/* Story */}
+      {story && (
+        <section id="story" className="scroll-mt-20 bg-paper border-y border-slate-200 py-16 md:py-24">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-12 gap-10">
+            <div className="md:col-span-5">
+              <SectionHeading className="max-w-[14ch]">{story.headline}</SectionHeading>
+              <p className="mt-5 text-lg text-slate-700 leading-relaxed max-w-[48ch]">{story.intro}</p>
+            </div>
+            {story.timeline?.length > 0 && (
+              <ol className="md:col-span-7 md:pl-6">
+                {story.timeline.map((t, i) => {
+                  const first = i === 0;
+                  const last = i === story.timeline.length - 1;
+                  return (
+                    <li key={t.year} className="grid grid-cols-[4.25rem_1.25rem_1fr] sm:grid-cols-[5.5rem_1.25rem_1fr] gap-x-4 sm:gap-x-6">
+                      <span className="font-display font-bold text-3xl text-metal leading-none pt-5 text-right">{t.year}</span>
+                      <span className="relative flex justify-center" aria-hidden="true">
+                        <span className={`absolute w-1.5 bg-metal ${first ? 'top-7' : 'top-0'} ${last ? 'h-7' : 'bottom-0'}`} />
+                        <span className="relative mt-5 w-5 h-5 rounded-full bg-paper border-[3px] border-metal" />
+                      </span>
+                      <p className="py-4 text-lg text-slate-700 leading-relaxed">{t.text}</p>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Reviews */}
+      {reviews?.length > 0 && (
+        <section id="reviews" className="scroll-mt-20 max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+          <SectionHeading>What customers say</SectionHeading>
+          <ul className="mt-10 grid md:grid-cols-2 gap-10">
+            {reviews.map((r) => (
+              <li key={r.author} className="border-t-2 border-ink pt-5">
+                <p className="text-xl text-slate-800 leading-relaxed">
+                  {r.quote ? `“${r.text}”` : r.text}
+                </p>
+                <p className="mt-4 font-semibold text-ink">
+                  {r.author} <span className="font-normal text-slate-500">({r.date})</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+          {client.reviewsSource && (
+            <p className="mt-8">
+              <a href={client.reviewsSource} className="text-ink font-semibold underline underline-offset-4 decoration-metal decoration-2 hover:decoration-signal">
+                Read the full testimonials
+              </a>
+            </p>
+          )}
+        </section>
+      )}
+
+      {/* Contact / footer */}
+      <footer id="contact" className="scroll-mt-20 bg-ink text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20 grid md:grid-cols-12 gap-10">
+          <div className="md:col-span-7">
+            <h2 className="font-display font-bold text-4xl sm:text-5xl leading-tight">Need a plumber? Call us.</h2>
+            <a href={tel} className="mt-6 inline-flex items-center gap-3 bg-signal text-white font-display font-bold text-3xl sm:text-4xl px-6 py-4 rounded hover:brightness-110">
+              <Phone size={30} aria-hidden="true" /> {client.phone}
+            </a>
+            {client.email && (
+              <p className="mt-5 text-lg">
+                <a href={`mailto:${client.email}`} className="inline-flex items-center gap-2 text-white/85 hover:text-white underline underline-offset-4 decoration-white/30 break-all">
+                  <Mail size={18} className="shrink-0" aria-hidden="true" /> {client.email}
+                </a>
+              </p>
+            )}
+          </div>
+          <div className="md:col-span-5 md:pl-8 md:border-l md:border-white/15 space-y-4 text-white/75 text-lg">
+            <p className="font-display font-semibold text-2xl text-white">{client.name}</p>
+            <p>{client.address || client.city}</p>
+            <p>{client.license}{client.licenseClass && <><br />{client.licenseClass}</>}</p>
+            <p>Serving {areas.join(', ')}</p>
+          </div>
+        </div>
+        <div className="border-t border-white/10">
+          <p className="max-w-6xl mx-auto px-4 sm:px-6 py-6 text-sm text-white/50">
+            © {new Date().getFullYear()} {legal}. All rights reserved.
+          </p>
         </div>
       </footer>
 
+      {/* Mobile call bar */}
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-40 grid grid-cols-2 border-t border-slate-300 shadow-[0_-4px_16px_rgba(0,0,0,0.12)]">
+        <a href={tel} className="bg-signal text-white font-semibold text-lg py-4 flex items-center justify-center gap-2">
+          <Phone size={20} aria-hidden="true" /> Call
+        </a>
+        <a href={sms} className="bg-ink text-white font-semibold text-lg py-4 flex items-center justify-center gap-2">
+          <MessageSquare size={20} aria-hidden="true" /> Text
+        </a>
+      </div>
     </div>
   );
 }

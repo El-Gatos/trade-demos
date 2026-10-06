@@ -1,52 +1,63 @@
+// Not yet fact-checked against Luna's real site or CSLB. Verify the license,
+// offers and testimonial before showing this to anyone.
 export const luna = {
   id: "luna",
   name: "Luna Plumbing Service",
   shortName: "LP",
+  logoText: "Luna",
+  logoSub: "Plumbing Service",
   estYear: "2004",
-  yearsInBusiness: "20+",
   phone: "(951) 331-3689",
-  license: "CA Lic #890406",
   email: "horacio.luna@lunaplumbingservice.com",
-  city: "Moreno Valley & Perris, CA",
-  serviceAreas: "Moreno Valley, Perris, Sunnymead Ranch & Riverside",
-  tagline: "Plumbing You Can Trust",
+  license: "CA Lic. #890406",
+  city: "Moreno Valley, CA",
+  serviceAreas: ["Moreno Valley", "Perris", "Sunnymead Ranch", "Riverside"],
 
   theme: {
-    primary: "bg-red-700 hover:bg-red-800 text-white",
-    badge: "bg-red-50 text-red-700 border-red-200",
-    accentText: "text-red-700",
-    accentBorder: "border-red-400",
-    heroButton: "bg-red-600 hover:bg-red-500 text-white shadow-red-600/30",
+    ink: "#2A1E1C",
+    signal: "#B3261E",
+    metal: "#8C9196",
+    paper: "#F6F5F4",
   },
 
   hero: {
-    subBadge: "Horacio Luna • 20+ Years Trade Experience",
-    title: "Honest Upfront Pricing Before A Single Wrench Turns.",
-    subtitle: "Rapid emergency residential and commercial plumbing response throughout Moreno Valley and Perris.",
+    headline: "Upfront pricing before a single wrench turns.",
+    sub: "Residential and commercial plumbing across Moreno Valley and Perris, from Horacio Luna and 20+ years in the trade.",
+    urgent: "Emergency? Call now for rapid response.",
   },
 
-  coupons: [
-    { code: "LUNA-130", discount: "$129.99", title: "Water Heater Flush & Check", sub: "Flush scale and sediment. Inspect all lines, relief valves, and gas connections." },
-    { code: "TRADE-50", discount: "$50 CASH BACK", title: "Old Unit Trade-In", sub: "Trade in your old water heater toward a high-efficiency system replacement." },
-    { code: "DRAIN-25", discount: "$25 OFF", title: "Emergency Drain Snaking", sub: "Clear stubborn kitchen, bathroom, or mainline clogs quickly." }
+  facts: [
+    { value: "Since 2004", label: "20+ years in residential and commercial plumbing" },
+    { value: "Lic. #890406", label: "California licensed plumbing contractor" },
+    { value: "Upfront pricing", label: "You know the price before work starts" },
   ],
 
-  services: [
-    { title: "Water Heater Repair & Flush", desc: "Restore hot water pressure and efficiency with comprehensive flush and element diagnostics." },
-    { title: "Emergency Drain Snaking", desc: "Rapid mechanical clearing for backed-up sewer lines, toilets, and main laterals." },
-    { title: "Slab Leak Diagnostics", desc: "Locate hot water slab leaks before concrete damage and high water bills accumulate." },
-    { title: "Garbage Disposal & Fixtures", desc: "Commercial and residential fixture replacement, faucet rebuilds, and sink valve upgrades." },
-    { title: "Pressure Regulators", desc: "Protect household copper and appliances from damaging street pressure surges." },
-    { title: "Commercial Line Maintenance", desc: "Tailored preventative plumbing service for restaurants, offices, and retail spaces." }
+  offers: [
+    { discount: "$129.99", title: "Water heater flush and check", sub: "Flush scale and sediment, and inspect lines, relief valves and gas connections." },
+    { discount: "$50 back", title: "Old water heater trade-in", sub: "Trade in your old unit toward a high-efficiency replacement." },
+    { discount: "$25 off", title: "Emergency drain snaking", sub: "Kitchen, bathroom or main line clogs." },
   ],
 
-  about: {
-    quoteHeadline: "High quality service and expertise to keep your facilities running.",
-    story: "With over 20 years of experience in Commercial and Residential plumbing fields, our goal is to deliver honest, dependable service directly to our neighbors in Moreno Valley and Perris.",
-    testimonial: {
-      quote: "They arrived in record time on New Year's when our sump pump went out. Horacio explained the issue upfront and had us running before flooded floors ruined our holiday.",
-      author: "P. Clay",
-      role: "Local Homeowner"
-    }
-  }
+  services: {
+    home: [
+      { title: "Water heater repair and flush", desc: "Restore hot water and efficiency with a full flush and diagnostics." },
+      { title: "Emergency drain snaking", desc: "Backed-up sewer lines, toilets and main laterals." },
+      { title: "Slab leak diagnostics", desc: "Find hot water slab leaks before concrete damage and high bills." },
+      { title: "Disposals and fixtures", desc: "Fixture replacement, faucet rebuilds and sink valve upgrades." },
+      { title: "Pressure regulators", desc: "Protect pipes and appliances from street pressure surges." },
+    ],
+    business: [
+      { title: "Commercial line maintenance", desc: "Preventive service for restaurants, offices and retail." },
+      { title: "Commercial fixtures", desc: "Replacement and repair for busy facilities." },
+    ],
+  },
+
+  story: {
+    headline: "Service that keeps your home and business running.",
+    intro: "With over 20 years in commercial and residential plumbing, Horacio Luna’s goal is honest, dependable service for neighbors in Moreno Valley and Perris.",
+  },
+
+  reviews: [
+    { author: "P. Clay", date: "Homeowner", quote: true, text: "They arrived in record time on New Year’s when our sump pump went out. Horacio explained the issue upfront and had us running before flooded floors ruined our holiday." },
+  ],
 };

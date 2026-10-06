@@ -52,17 +52,25 @@ The `id` field must match the key in `CLIENTS` and the URL.
 
 ### Fields the template reads
 
+Required: `id`, `name`, `shortName`, `phone`, `city`, `license`, `theme`, `hero`, `services`.
+
 | Field | Used for |
 | --- | --- |
-| `id` | URL and switcher |
-| `name` | Header and footer |
-| `shortName` | Switcher button label |
-| `phone` | All call/text buttons; the dial number is derived from it, so any format works |
-| `license` | Residential card and footer |
-| `city` | Hero banner ("Serving <city> Since …") and footer fallback |
-| `estYear` | Hero banner |
-| `address` | Footer (optional, falls back to `city`) |
-| `legalName` | Copyright line (optional, falls back to `name`) |
-| `logoText` | Logo box (optional, defaults to the first word of `name`) |
+| `phone` | Every call/text link; the dial number is derived from it, so any format works |
+| `theme` | `{ ink, signal, metal, paper }` hex colors. `ink` = dark sections and text, `signal` = call buttons, `metal` = pipe and accents (copper, steel, brass…), `paper` = light section background |
+| `hero` | `{ headline, sub, urgent }` |
+| `services` | `{ home: [{ title, desc }], business: [...] }` |
+| `logoText`, `logoSub` | Two-part wordmark in the header (defaults to first word of `name`) |
+| `serviceAreas` | Array of places, shown in the hero and footer |
+| `facts` | Optional strip under the hero: `[{ value, label }]` |
+| `offers` | Optional coupons: `[{ discount, title, sub }]` |
+| `story` | Optional `{ headline, intro, timeline: [{ year, text }] }` |
+| `reviews` | Optional `[{ author, date, text, quote }]`. Set `quote: true` only for the customer's exact words |
+| `reviewsSource` | Optional link to the full reviews page |
+| `email`, `address`, `locationNote`, `licenseClass`, `legalName` | Optional contact and footer details |
 
-> Heads up: most of the body copy in `MasterTradeTemplate.jsx` (service cards, slab leak section, job gallery) is still written for Tonkin and not yet driven by client data.
+Sections with no data are skipped, so a bare-bones client still renders a complete page.
+
+## Ground rules for client data
+
+These go in front of real businesses, so: real license numbers (check the [CSLB lookup](https://www.cslb.ca.gov/onlineservices/checklicenseII/checklicense.aspx)), real offers, and real reviews only.

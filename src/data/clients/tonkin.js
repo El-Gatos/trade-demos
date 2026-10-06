@@ -1,125 +1,81 @@
+// Facts sourced from tonkinplumbing.com (Home, About, Residential, Commercial,
+// Testimonials) and CSLB public records (license #519138, C-36, active since 1987).
 export const tonkin = {
   id: "tonkin",
   name: "Tonkin Plumbing",
   legalName: "Tonkin Plumbing, Inc.",
   shortName: "TP",
+  logoText: "Tonkin",
+  logoSub: "Plumbing",
   estYear: "1987",
-  yearsInBusiness: "39+",
   phone: "(951) 784-7586",
-  license: "CA Lic #512803",
-  email: "service@tonkinplumbing.com",
-  address: "Riverside, CA (Vine St corridor)",
+  email: "myplumber@tonkinplumbing.com",
+  license: "CA Lic. #519138",
+  licenseClass: "C-36 Plumbing Contractor",
+  address: "Riverside, CA 92507",
   city: "Riverside, CA",
-  serviceAreas: "Riverside, Corona, Norco, Moreno Valley & the Inland Empire",
-  tagline: "Riverside’s Trusted Master Plumbers Since 1987",
-  
+  locationNote: "Near the 91, 215 and 60 interchange",
+  serviceAreas: ["Riverside", "Corona", "The Inland Empire"],
+
   theme: {
-    primary: "bg-blue-700 hover:bg-blue-800 text-white",
-    primaryBg: "bg-blue-700",
-    badge: "bg-blue-50 text-blue-700 border-blue-200",
-    accentText: "text-blue-700",
-    accentBorder: "border-blue-400",
-    heroButton: "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30",
+    ink: "#13294B",     // van navy
+    signal: "#C62828",  // call-to-action red
+    metal: "#B8662F",   // copper
+    paper: "#F4F6F8",
   },
 
   hero: {
-    badge: "Riverside’s Longest-Running Family Plumbing Shop",
-    headlineMain: "When You Have A Plumbing Problem,",
-    headlineHighlight: "We're There In A Jiffy.",
-    subtext: "Serving Riverside and Corona for over 39 years. From slab leak acoustic detection and Bradford White water heaters to commercial sewer hydro jetting.",
-    guarantees: [
-      "100% Workmanship Guarantee",
-      "Upfront Flat Rates Before Work Begins",
-      "Certified Master Technicians",
-      "24/7 Live Emergency Line"
-    ]
+    headline: "Riverside’s plumbers since 1987.",
+    sub: "Repairs, water heaters, repipes and remodels for homes and businesses across Riverside, Corona and the Inland Empire.",
+    urgent: "Plumbing emergency? We’re often there within the hour.",
   },
 
-  coupons: [
-    { 
-      code: "TONKIN-25", 
-      discount: "$25 OFF", 
-      title: "Any Plumbing Service Call", 
-      sub: "Valid toward any residential repair, drain snaking, or valve replacement.",
-      finePrint: "Limit one per household. Mention code at time of booking."
-    },
-    { 
-      code: "TONKIN-CAM", 
-      discount: "FREE", 
-      title: "High-Def Sewer Camera Inspection", 
-      sub: "Pinpoint tree root intrusion and pipe shifts before you dig.",
-      finePrint: "Included with any main lateral clearing or jetting service."
-    },
-    { 
-      code: "TONKIN-100", 
-      discount: "$100 OFF", 
-      title: "Water Heater Installation", 
-      sub: "Valid on standard energy-efficient tanks and Rinnai tankless upgrades.",
-      finePrint: "Valid on replacement units installed by Tonkin Plumbing."
-    }
+  facts: [
+    { value: "Since 1987", label: "Family-run, same Riverside shop" },
+    { value: "CSLB #519138", label: "Licensed C-36 plumbing contractor" },
+    { value: "Certified installer", label: "A.O. Smith, Rinnai and Bradford White water heaters" },
+    { value: "Free estimates", label: "You see your options before any work starts" },
   ],
 
   services: {
-    residential: [
-      { 
-        title: "Water Heaters & Tankless Systems", 
-        desc: "Diagnostic repair, element flushes, and replacements for Bradford White, A.O. Smith, and Rinnai tankless systems.",
-        tag: "High Priority"
-      },
-      { 
-        title: "Sewer Jetting & Main Drains", 
-        desc: "High-pressure hydro jetting clears severe grease, industrial sludge, and invasive tree roots out to the street main.",
-        tag: "Fast Dispatch"
-      },
-      { 
-        title: "Electronic Slab Leak Detection", 
-        desc: "Non-invasive electronic and acoustic frequency testing to locate hidden foundation leaks without tearing up floors.",
-        tag: "Specialized"
-      },
-      { 
-        title: "Whole-Home Copper Repiping", 
-        desc: "Eliminate low water pressure and rust by swapping brittle galvanized lines for Type-L American copper or Uponor PEX.",
-        tag: "Permanent Fix"
-      }
+    home: [
+      { title: "Water heaters", desc: "Repair and replacement, tank or tankless." },
+      { title: "Leaks and slab leaks", desc: "Electronic leak detection to find it before we open anything up." },
+      { title: "Drains and sewers", desc: "Clearing, hydro-jetting and camera inspections." },
+      { title: "Whole-house repipes", desc: "Copper repiping to replace old, failing lines." },
+      { title: "Kitchen and bath remodels", desc: "Fixtures, layout changes and project management." },
+      { title: "Gas lines", desc: "New gas line installation and repair." },
+      { title: "Fixtures", desc: "Toilets, faucets, sinks and garbage disposals." },
+      { title: "Water pressure", desc: "Fixing pressure that’s too low or too high." },
     ],
-    commercial: [
-      { 
-        title: "Backflow Testing & Certification", 
-        desc: "Annual certified backflow testing, device rebuilding, and automated municipal compliance filings for city water districts.",
-        tag: "Certified"
-      },
-      { 
-        title: "Commercial Boilers & Circulators", 
-        desc: "Heavy-duty commercial hot water loops, circulating pumps, and boiler maintenance for hospitality and retail.",
-        tag: "Commercial"
-      },
-      { 
-        title: "Grease Trap & Interceptor Maintenance", 
-        desc: "Routine line scoping, jetting, and emergency overflow prevention for Riverside restaurants and cafeterias.",
-        tag: "Code Compliant"
-      },
-      { 
-        title: "Facility Preventative Maintenance", 
-        desc: "Scheduled valve exercises, pressure regulator adjustments, and multi-tenant plumbing servicing contracts.",
-        tag: "Retainer Ready"
-      }
-    ]
+    business: [
+      { title: "Water heaters and boilers", desc: "Commercial hot water, repaired or replaced." },
+      { title: "Backflow devices", desc: "Installation, repair and testing." },
+      { title: "Grease, sand and lint traps", desc: "Installation and maintenance." },
+      { title: "Drain cleaning", desc: "Hydro-jetting for heavy buildup." },
+      { title: "Water and sewer lines", desc: "Including trenchless pipe bursting." },
+      { title: "New construction", desc: "Plumbing planned and built from the ground up." },
+      { title: "Maintenance agreements", desc: "Annual inspections that catch problems early." },
+    ],
   },
 
+  story: {
+    headline: "Two apprentices from Matamata, New Zealand.",
+    intro: "Phillip Tonkin and Terry Swney both did five-year plumbing apprenticeships in the same New Zealand town before ending up in Riverside.",
+    timeline: [
+      { year: "1987", text: "After time at Rancho Plumbing in Moreno Valley, Phillip opens Tonkin Plumbing with one truck and one plumber: himself." },
+      { year: "1992", text: "Terry Swney joins as partner." },
+      { year: "2017", text: "Phillip retires. Terry leads the company." },
+      { year: "Today", text: "Supervisors, project managers and field crews serving homes and businesses across the Inland Empire." },
+    ],
+  },
+
+  // Summaries of the two testimonials on tonkinplumbing.com/testimonials.
+  // Not verbatim quotes; swap in the customers' exact words (or current Google
+  // reviews) before this goes live.
   reviews: [
-    {
-      author: "Mark R.",
-      location: "Poly High Neighborhood, Riverside",
-      stars: 5,
-      date: "Recent Customer",
-      text: "Tonkin has handled both our 1940s home near Poly High and our local warehouse for over a decade. When our water heater gave out on a Sunday morning, they had a tech out with a new tank by lunch. Pricing is always dead upfront."
-    },
-    {
-      author: "David & Sarah T.",
-      location: "Corona, CA",
-      stars: 5,
-      date: "Verified Homeowner",
-      text: "Had two other plumbers tell us we needed a full $8,000 yard trench. Tonkin brought their camera out, showed us on video it was just a localized root plug at the cleanout, and cleared it in an hour. Honest guys."
-    }
-  ]
+    { author: "Kenne James", date: "2016", text: "A customer of more than ten years who counts on Tonkin for reliable, quality work, and notes how professional and clean the crews are." },
+    { author: "E. Hinton", date: "2015", text: "Praised the quick response, fair pricing, on-time arrival and respectful work." },
+  ],
+  reviewsSource: "https://www.tonkinplumbing.com/testimonials/",
 };
