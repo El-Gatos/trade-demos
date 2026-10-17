@@ -9,7 +9,7 @@ export default function DemoSwitcher() {
   const { pathname } = useLocation();
   const currentDemo = DEMOS.find((demo) => pathname === `/${demo.id}`);
   return (
-    <div className="fixed bottom-20 md:bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-50">
       {open ? (
         <div id="demo-switcher" className="bg-slate-900 border border-slate-700 text-white rounded-xl shadow-2xl p-4 w-72 space-y-3">
           <div className="flex justify-between items-center border-b border-slate-800 pb-2">
