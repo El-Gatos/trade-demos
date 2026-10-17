@@ -33,8 +33,10 @@ Visit `/business`. The hub and switcher update automatically. Use a unique URL s
 
 - `src/App.jsx`: hub, independent demo routes, and missing-demo page.
 - `src/components/DemoSwitcher.jsx`: shared demo navigation.
-- `src/demos/index.js`: demo registry, currently empty.
+- `src/demos/index.js`: demo registry, includes KMA at `/kma`.
 - `src/demos/<business>/`: each future business's independent website.
+
+The first independent rebuild is **KMA HVAC & Construction** at `/kma`. See `src/demos/kma/README.md` for content sources and demo limitations.
 
 The previous Tonkin and Luna demos and master template have been removed. Old demo URLs show a missing-demo page.
 
