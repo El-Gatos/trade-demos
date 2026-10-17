@@ -1,76 +1,41 @@
 # Trade Demos
 
-One React template, many local trade businesses. Each client is a data file; the template skins itself from it, so a new demo is a new file instead of a new site.
+A collection of individually designed websites for local trade businesses. Each demo owns its layout, styling, and content. There is no shared business website template.
 
-Live routes:
+The home page lists available demos. The floating **Switch Client** control stays available on every page.
 
-- `/` or `/tonkin` - Tonkin Plumbing (default)
-- `/luna` - Luna Plumbing Service
-
-The floating **Switch Client** button (bottom right) flips between demos.
-
-## Run it
+## Run locally
 
 ```bash
 npm install
-npm run dev      # local dev server
-npm run build    # production build into dist/
+npm run dev
+npm run build
 npm run lint
 ```
 
-Stack: React 19, Vite, Tailwind CSS v3 (via PostCSS), react-router, lucide-react icons.
+## Add an independent demo
 
-## Project layout
+1. Create a folder under `src/demos/` for the business.
+2. Build its React page component and any assets or styles in that folder.
+3. Import the page into `src/demos/index.js` and register it:
 
-```
-src/
-  App.jsx                         routes: / and /:clientId
-  components/
-    MasterTradeTemplate.jsx       the page itself
-    DemoSwitcher.jsx              floating client picker
-  data/
-    index.js                      CLIENTS registry + DEFAULT_CLIENT
-    clients/
-      tonkin.js
-      luna.js
+```js
+import BusinessPage from './business/BusinessPage';
+
+export const DEMOS = [
+  { id: 'business', name: 'Business Name', Page: BusinessPage },
+];
 ```
 
-## Adding a client
+Visit `/business`. The hub and switcher update automatically. Use a unique URL slug for each ID. Scope CSS to the demo so styles do not affect other sites.
 
-1. Copy an existing file in `src/data/clients/` (e.g. `luna.js` to `acme.js`) and fill in the details.
-2. Register it in `src/data/index.js`:
+## Structure
 
-   ```js
-   import { acme } from './clients/acme';
+- `src/App.jsx`: hub, independent demo routes, and missing-demo page.
+- `src/components/DemoSwitcher.jsx`: shared demo navigation.
+- `src/demos/index.js`: demo registry, currently empty.
+- `src/demos/<business>/`: each future business's independent website.
 
-   export const CLIENTS = { tonkin, luna, acme };
-   ```
+The previous Tonkin and Luna demos and master template have been removed. Old demo URLs show a missing-demo page.
 
-3. Visit `/acme`.
-
-The `id` field must match the key in `CLIENTS` and the URL.
-
-### Fields the template reads
-
-Required: `id`, `name`, `shortName`, `phone`, `city`, `license`, `theme`, `hero`, `services`.
-
-| Field | Used for |
-| --- | --- |
-| `phone` | Every call/text link; the dial number is derived from it, so any format works |
-| `theme` | `{ ink, signal, metal, paper }` hex colors. `ink` = dark sections and text, `signal` = call buttons, `metal` = pipe and accents (copper, steel, brass…), `paper` = light section background |
-| `hero` | `{ headline, sub, urgent }` |
-| `services` | `{ home: [{ title, desc }], business: [...] }` |
-| `logoText`, `logoSub` | Two-part wordmark in the header (defaults to first word of `name`) |
-| `serviceAreas` | Array of places, shown in the hero and footer |
-| `facts` | Optional strip under the hero: `[{ value, label }]` |
-| `offers` | Optional coupons: `[{ discount, title, sub }]` |
-| `story` | Optional `{ headline, intro, timeline: [{ year, text }] }` |
-| `reviews` | Optional `[{ author, date, text, quote }]`. Set `quote: true` only for the customer's exact words |
-| `reviewsSource` | Optional link to the full reviews page |
-| `email`, `address`, `locationNote`, `licenseClass`, `legalName` | Optional contact and footer details |
-
-Sections with no data are skipped, so a bare-bones client still renders a complete page.
-
-## Ground rules for client data
-
-These go in front of real businesses, so: real license numbers (check the [CSLB lookup](https://www.cslb.ca.gov/onlineservices/checklicenseII/checklicense.aspx)), real offers, and real reviews only.
+Use verified business details, approved offers, and authentic testimonials in client-facing demos.
